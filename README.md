@@ -1,38 +1,66 @@
 # Fluent::Plugin::Diskusage
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fluent/plugin/diskusage`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Send disk usage per mountpoint as events to FluentD.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+```ruby
+fluent-gem install fluent-plugin-diskusage
+```
+or
 
 ```ruby
-gem 'fluent-plugin-diskusage'
+/usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-diskusage
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install fluent-plugin-diskusage
+### Dependencies
+This plugin depends on the [sys-filesystem](https://github.com/djberg96/sys-filesystem) ruby gem
 
 ## Usage
 
-TODO: Write usage instructions here
+`refresh_interval` is an optional parameter, by default the plugin will poll every 2 minutes (120 seconds)
 
-## Development
+`label` is a custom label that will be included in the event record
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```
+<source>
+	type        diskusage
+	tag         <YOUR TAG>
+	mountpoint  /
+	label       rootfs
+</source>
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+<source>
+	type             diskusage
+	tag              <YOUR TAG>
+	mountpoint       /data
+	label            DataFiles
+	refresh_interval 1800
+</source>
+```
+
+### Record Format
+```
+	"label"        => 'rootfs',
+	"total_bytes"  => 10737418240
+	"free_bytes"   => 6442450944
+	"used_bytes"   => 4294967296
+	"used_percent" => 0.4
+	"free_percent" => 0.6
+```
+```
+	"label"        => 'DataFiles',
+	"total_bytes"  => 1099511627775
+	"free_bytes"   => 536870912000
+	"used_bytes"   => 536870912000
+	"used_percent" => 0.5
+	"free_percent" => 0.5
+```
+
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/fluent-plugin-diskusage.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jwestbrook/fluent-plugin-diskusage.
 
 
 ## License
