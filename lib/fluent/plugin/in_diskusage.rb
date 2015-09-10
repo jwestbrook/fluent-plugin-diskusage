@@ -1,6 +1,11 @@
 class Fluent::DiskUsage < Fluent::Input
 	Fluent::Plugin.register_input('diskusage',self)
 
+	# Define `router` method to support v0.10.57 or earlier
+	unless method_defined?(:router)
+		define_method("router") { Fluent::Engine }
+	end
+	
 	config_param :tag,		:string
 	config_param :mountpoint,	:string
 	config_param :label,		:string
