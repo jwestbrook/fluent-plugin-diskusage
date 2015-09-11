@@ -26,14 +26,14 @@ This plugin depends on the [sys-filesystem](https://github.com/djberg96/sys-file
 <source>
 	type        diskusage
 	tag         <YOUR TAG>
-	mountpoint  /dev/sda1
+	mountpoint  /
 	label       rootfs
 </source>
 
 <source>
 	type             diskusage
 	tag              <YOUR TAG>
-	mountpoint       /dev/xvdf2
+	mountpoint       /data
 	label            DataFiles
 	refresh_interval 1800
 </source>
