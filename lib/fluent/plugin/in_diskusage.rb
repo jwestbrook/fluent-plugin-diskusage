@@ -1,3 +1,5 @@
+require 'fluent/input'
+
 class Fluent::DiskUsage < Fluent::Input
 	Fluent::Plugin.register_input('diskusage',self)
 
