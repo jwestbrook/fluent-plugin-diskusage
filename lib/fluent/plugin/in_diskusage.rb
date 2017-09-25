@@ -50,6 +50,6 @@ class Fluent::DiskUsage < Fluent::Input
 	def shutdown
 		@watcher.terminate
 		@watcher.join
-
+		super
 	end
 end
